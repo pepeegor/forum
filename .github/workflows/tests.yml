@@ -49,8 +49,9 @@ jobs:
         run: chmod +x vendor/bin/phpunit
 
       - name: Create database schema
-        run: |
-          mysql -h mysql -u root -p"" forum < database/schema.sql
+          run: |
+            mysql -h mysql -u root -p"" forum < database/schema.sql
+            mysql -h mysql -u root -p"" -e "SHOW DATABASES;"
 
       - name: Run test suite
         run: vendor/bin/phpunit tests
