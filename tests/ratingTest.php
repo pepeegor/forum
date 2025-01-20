@@ -24,7 +24,7 @@ class RatingTest extends TestCase
 
         // Замер времени выполнения асинхронного запроса
         $start = microtime(true);
-        require_once 'C:\xamppp\htdocs\forum\src\includes\rating.php';
+        require_once __DIR__ . '/../src/includes/rating.php';
         $end = microtime(true);
         $asyncTime = $end - $start;
 
@@ -62,7 +62,7 @@ class RatingTest extends TestCase
         $_POST['post_id'] = $postId;
         $_POST['action'] = 'like';
         $start = microtime(true);
-        require_once 'C:\xamppp\htdocs\forum\src\includes\rating.php';
+        require_once __DIR__ . '/../src/includes/rating.php';
         $end = microtime(true);
         $asyncTime = $end - $start;
 

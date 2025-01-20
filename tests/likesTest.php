@@ -47,8 +47,8 @@ class LikesTest extends TestCase
         $response = file_get_contents('http://localhost/forum/src/includes/rating.php', false, $context);
 
         // Декодируем JSON-ответ
-        $responseData = json_decode($response, true); 
-        $newLikes = $responseData['likes']; 
+        $responseData = json_decode($response, true);
+        $newLikes = $responseData['likes'];
 
         // Проверка ответа сервера
         $this->assertIsNumeric($newLikes); // Проверяем, что ответ - число
@@ -86,8 +86,8 @@ class LikesTest extends TestCase
         $response = file_get_contents('http://localhost/forum/src/includes/rating.php', false, $context);
 
         // Декодируем JSON-ответ
-        $responseData = json_decode($response, true); 
-        $newLikes = $responseData['likes']; 
+        $responseData = json_decode($response, true);
+        $newLikes = $responseData['likes'];
 
         // Проверка ответа сервера
         $this->assertIsNumeric($newLikes); // Проверяем, что ответ - число
