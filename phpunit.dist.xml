@@ -18,6 +18,10 @@
         <env name="DB_PASSWORD" value=""/> 
     </php>
 
+    <migrations>
+        <directory suffix=".php">database/migrations</directory> 
+    </migrations>
+
     <testsuites>
         <testsuite name="Project Test Suite">
             <directory>tests</directory>

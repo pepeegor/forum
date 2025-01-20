@@ -13,7 +13,7 @@ jobs:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ROOT_PASSWORD: "" # замените на ваш пароль
+          MYSQL_ROOT_PASSWORD: ""
           MYSQL_DATABASE: forum
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
@@ -48,10 +48,9 @@ jobs:
       - name: Make PHPUnit executable
         run: chmod +x vendor/bin/phpunit
 
-      - name: Create database schema # !!! Добавлен шаг для создания схемы БД
+      - name: Create database schema
         run: |
-          vendor/bin/phpunit --bootstrap src/includes/database.php  \
-          -c phpunit.dist.xml
+          mysql -h mysql -u root -p"" forum < database/schema.sql
 
       - name: Run test suite
         run: vendor/bin/phpunit tests

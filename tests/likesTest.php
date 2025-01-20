@@ -16,11 +16,12 @@ class LikesTest extends TestCase
         $dbname = "forum";
 
         $this->conn = new mysqli($servername, $username, $password, $dbname); // Устанавливаем соединение
+
     }
 
     public function testAddLike()
     {
-        $postId = 41; // ID существующего сообщения
+        $postId = 1; // ID существующего сообщения
 
         // Получаем начальное количество лайков
         $sql = "SELECT likes FROM posts WHERE id = ?";
@@ -59,7 +60,7 @@ class LikesTest extends TestCase
 
     public function testAddDislike()
     {
-        $postId = 41; // ID существующего сообщения
+        $postId = 1; // ID существующего сообщения
 
         // Получаем начальное количество лайков
         $sql = "SELECT likes FROM posts WHERE id = ?";

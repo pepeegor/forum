@@ -18,6 +18,7 @@ class PostTest extends TestCase
         $dbname = "forum";
 
         $this->conn = new mysqli($servername, $username, $password, $dbname); // Устанавливаем соединение
+        
     }
 
     public function testCreatePost()

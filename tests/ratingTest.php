@@ -14,6 +14,7 @@ class RatingTest extends TestCase
         $dbname = "forum";
 
         $this->conn = new mysqli($servername, $username, $password, $dbname); // Устанавливаем соединение
+        
     }
 
     public function testAsyncRating()
