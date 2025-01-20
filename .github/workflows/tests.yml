@@ -13,7 +13,7 @@ jobs:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ROOT_PASSWORD: "" 
+          MYSQL_ROOT_PASSWORD: "" # замените на ваш пароль, если он есть
           MYSQL_DATABASE: forum
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
@@ -50,8 +50,7 @@ jobs:
 
     - name: Create database schema
       run: |
-        mysql -h mysql -u root -p"" forum < database/schema.sql
-        mysql -h mysql -u root -p"" -e "SHOW DATABASES;"
+        mysql -h mysql -u root -p"" forum < database/schema.sql 
 
     - name: Run test suite
       run: vendor/bin/phpunit tests
