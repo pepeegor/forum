@@ -1,9 +1,14 @@
 <?php
 
-$servername = "localhost";
-$username = "root"; // Замени на имя пользователя твоей базы данных
-$password = "";     // Замени на пароль твоей базы данных
-$dbname = "forum";   // Замени на имя твоей базы данных
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../'); // !!! Изменен путь
+$dotenv->load();
+
+$servername = $_ENV['DB_HOST'];
+$username = $_ENV['DB_USERNAME'];
+$password = $_ENV['DB_PASSWORD'];
+$dbname = $_ENV['DB_DATABASE'];
 
 // Создаем соединение
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -15,5 +20,3 @@ if ($conn->connect_error) {
 
 // Устанавливаем кодировку UTF-8
 $conn->set_charset("utf8");
-
-?>
