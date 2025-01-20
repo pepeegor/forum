@@ -12,14 +12,13 @@ class PostTest extends TestCase
 
     protected function setUp(): void
     {
-        $servername = "localhost";
+        $servername = "mysql";
         $username = "root";
         $password = "";
         $dbname = "forum";
 
         $this->conn = new mysqli($servername, $username, $password, $dbname); // Устанавливаем соединение
-        $sql = file_get_contents('database/schema.sql'); 
-        $this->conn->multi_query($sql); 
+
     }
 
     public function testCreatePost()
