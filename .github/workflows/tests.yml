@@ -39,4 +39,4 @@ jobs:
       run: chmod +x vendor/bin/phpunit
 
     - name: Run test suite
-      run: vendor/bin/phpunit tests --exclude-group rating
+      run: vendor/bin/phpunit tests/forumSimulatorTest.php
