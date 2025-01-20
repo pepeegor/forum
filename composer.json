@@ -1,0 +1,10 @@
+{
+    "require": {
+        "react/event-loop": "^1.5",
+        "react/promise": "^3.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5",
+        "orchestra/testbench": "^9.9"
+    }
+}
