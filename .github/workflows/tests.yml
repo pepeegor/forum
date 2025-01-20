@@ -13,7 +13,7 @@ jobs:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ROOT_PASSWORD: root_password # замените на ваш пароль
+          MYSQL_ROOT_PASSWORD: "" # замените на ваш пароль
           MYSQL_DATABASE: forum
         ports:
           - 3306:3306
@@ -50,7 +50,7 @@ jobs:
       - name: Create database schema # !!! Добавлен шаг для создания схемы БД
         run: |
           vendor/bin/phpunit --bootstrap src/includes/database.php  \
-          -c phpunit.dist.xml --migrate-configuration
+          -c phpunit.dist.xml
 
       - name: Run test suite
         run: vendor/bin/phpunit tests
