@@ -1,6 +1,12 @@
-name: Tests
+	name: Run PHPUnit tests
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   test:
@@ -10,15 +16,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup PHP
+      - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, gd, xdebug
-          coverage: none
+          php-version: "8.2"
+          extensions: mbstring, dom, xml, json, libxml, tokenizer, xmlwriter
 
-      - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-progress
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
 
-      - name: Run PHPUnit tests
+      - name: Make PHPUnit executable
+        run: chmod +x vendor/bin/phpunit
+
+      - name: Run PHPUnit
         run: vendor/bin/phpunit tests
