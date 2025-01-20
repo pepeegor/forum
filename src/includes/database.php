@@ -1,6 +1,6 @@
 <?php
 
-$servername = "mysql"; // Имя сервиса MySQL в Docker
+$servername = "localhost"; // Имя сервиса MySQL в Docker
 $username = "root";
 $password = "";
 $dbname = "forum";

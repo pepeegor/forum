@@ -8,7 +8,7 @@ class RatingTest extends TestCase
 
     protected function setUp(): void
     {
-        $servername = "mysql";
+        $servername = "localhost";
         $username = "root";
         $password = "";
         $dbname = "forum";

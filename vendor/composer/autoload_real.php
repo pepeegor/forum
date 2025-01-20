@@ -28,6 +28,10 @@ class ComposerAutoloaderInit4deadd796bd5e85df587ae5a03008fd1
         self::$loader = $loader = new \Composer\Autoload\ClassLoader(\dirname(__DIR__));
         spl_autoload_unregister(array('ComposerAutoloaderInit4deadd796bd5e85df587ae5a03008fd1', 'loadClassLoader'));
 
+        $includePaths = require __DIR__ . '/include_paths.php';
+        $includePaths[] = get_include_path();
+        set_include_path(implode(PATH_SEPARATOR, $includePaths));
+
         require __DIR__ . '/autoload_static.php';
         call_user_func(\Composer\Autoload\ComposerStaticInit4deadd796bd5e85df587ae5a03008fd1::getInitializer($loader));
 
