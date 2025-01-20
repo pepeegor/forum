@@ -2,18 +2,18 @@ name: PHPUnit tests
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    services:
+    services: 
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ROOT_PASSWORD: ""
+          MYSQL_ROOT_PASSWORD: "" 
           MYSQL_DATABASE: forum
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
@@ -21,37 +21,37 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.2"
-          extensions: mbstring, dom, xml, json, pdo_mysql
-          tools: composer:v2, phpunit
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: "8.2"
+        extensions: mbstring, dom, xml, json, pdo_mysql
+        tools: composer:v2, phpunit
 
-      - name: Get Composer cache directory
-        id: composer-cache
+    - name: Get Composer cache directory
+      id: composer-cache
+      run: |
+        echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Make PHPUnit executable
+      run: chmod +x vendor/bin/phpunit
+
+    - name: Create database schema
         run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
+          mysql -h mysql -u root -p"" forum < database/schema.sql
+          mysql -h mysql -u root -p"" -e "SHOW DATABASES;"
 
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
-
-      - name: Make PHPUnit executable
-        run: chmod +x vendor/bin/phpunit
-
-      - name: Create database schema
-          run: |
-            mysql -h mysql -u root -p"" forum < database/schema.sql
-            mysql -h mysql -u root -p"" -e "SHOW DATABASES;"
-
-      - name: Run test suite
-        run: vendor/bin/phpunit tests
+    - name: Run test suite
+      run: vendor/bin/phpunit tests
