@@ -50,7 +50,7 @@ jobs:
 
     - name: Create database schema
       run: |
-        mysql -h mysql -u root -p"" forum < database/schema.sql 
+        php -r "require 'src/includes/database.php'; \$sql = file_get_contents('database/schema.sql'); if (\$conn->multi_query(\$sql)) { echo 'Схема базы данных успешно создана.\n'; } else { echo 'Ошибка создания схемы базы данных: ' . \$conn->error . '\n'; exit(1); }"
 
     - name: Run test suite
       run: vendor/bin/phpunit tests
