@@ -21,7 +21,7 @@ $result = $conn->query($sql);
 
 <head>
     <title>Форум - <?php echo $forum["name"]; ?></title>
-    <link rel="stylesheet" href="dist/css/styles.min.css">
+    <link rel="stylesheet" href="dist/css/styles.min.css" onerror="this.href='src/css/styles.css'">
 </head>
 
 <body>

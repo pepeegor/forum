@@ -1,11 +1,20 @@
 <?php
 
+use React\EventLoop\Factory;
+use React\Promise\Deferred;
+use React\Promise\PromiseInterface;
+
 class ForumSimulator
 {
-
+    private $loop;
     private array $forums = [];
     private array $topics = [];
     private array $posts = [];
+
+    public function __construct($loop)
+    {
+        $this->loop = $loop;
+    }
 
     public function createForum(string $name, string $description): bool
     {
@@ -38,26 +47,40 @@ class ForumSimulator
         return true;
     }
 
-    public function addLike(int $postId): array
+    public function addLike(int $postId): PromiseInterface
     {
-        foreach ($this->posts as &$post) {
-            if ($post['id'] === $postId) {
-                $post['likes']++;
-                return ['likes' => $post['likes']];
+        $deferred = new Deferred();
+
+        $this->loop->addTimer(0.1, function () use ($deferred, $postId) {
+            foreach ($this->posts as &$post) {
+                if ($post['id'] === $postId) {
+                    $post['likes']++;
+                    $deferred->resolve(['likes' => $post['likes']]);
+                    return;
+                }
             }
-        }
-        return ['error' => 'Сообщение не найдено'];
+            $deferred->resolve(['error' => 'Сообщение не найдено']);
+        });
+
+        return $deferred->promise();
     }
 
-    public function addDislike(int $postId): array
+    public function addDislike(int $postId): PromiseInterface
     {
-        foreach ($this->posts as &$post) {
-            if ($post['id'] === $postId) {
-                $post['likes']--;
-                return ['likes' => $post['likes']];
+        $deferred = new Deferred();
+
+        $this->loop->addTimer(0.1, function () use ($deferred, $postId) {
+            foreach ($this->posts as &$post) {
+                if ($post['id'] === $postId) {
+                    $post['likes']--;
+                    $deferred->resolve(['likes' => $post['likes']]);
+                    return;
+                }
             }
-        }
-        return ['error' => 'Сообщение не найдено'];
+            $deferred->resolve(['error' => 'Сообщение не найдено']);
+        });
+
+        return $deferred->promise();
     }
 
     // Getters для доступа к данным форума (для проверок в тестах)

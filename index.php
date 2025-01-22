@@ -4,6 +4,7 @@
 <head>
   <title>Форум</title>
   <link rel="stylesheet" href="dist/css/styles.min.css">
+  <!-- <link rel="stylesheet" href="src/css/styles.css"> -->
 </head>
 
 <body>
@@ -41,6 +42,7 @@
   </main>
 
   <script src="dist/js/scripts.min.js"></script>
+  <!-- <script src="src/js/scripts.js"></script> -->
 </body>
 
 </html>

@@ -1,13 +1,23 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use React\EventLoop\Factory;
+use React\Promise\PromiseInterface;
+
 require_once 'forum_simulator.php';
 
 class ForumSimulatorTest extends TestCase
 {
+    private $loop;
+
+    protected function setUp(): void
+    {
+        $this->loop = Factory::create();
+    }
+
     public function testCreateForum()
     {
-        $simulator = new ForumSimulator();
+        $simulator = new ForumSimulator($this->loop);
         $result = $simulator->createForum('Тестовый раздел', 'Описание');
         $this->assertTrue($result);
         $this->assertCount(1, $simulator->getForums());
@@ -17,7 +27,7 @@ class ForumSimulatorTest extends TestCase
 
     public function testCreateTopic()
     {
-        $simulator = new ForumSimulator();
+        $simulator = new ForumSimulator($this->loop);
         $simulator->createForum('Тестовый раздел', 'Описание');
         $result = $simulator->createTopic(1, 'Тестовая тема');
         $this->assertTrue($result);
@@ -28,7 +38,7 @@ class ForumSimulatorTest extends TestCase
 
     public function testCreatePost()
     {
-        $simulator = new ForumSimulator();
+        $simulator = new ForumSimulator($this->loop);
         $simulator->createForum('Тестовый раздел', 'Описание');
         $simulator->createTopic(1, 'Тестовая тема');
         $result = $simulator->createPost(1, 'Тестовое сообщение');
@@ -41,21 +51,37 @@ class ForumSimulatorTest extends TestCase
 
     public function testAddLike()
     {
-        $simulator = new ForumSimulator();
+        $simulator = new ForumSimulator($this->loop);
         $simulator->createForum('Тестовый раздел', 'Описание');
         $simulator->createTopic(1, 'Тестовая тема');
         $simulator->createPost(1, 'Тестовое сообщение');
-        $result = $simulator->addLike(1);
-        $this->assertEquals(['likes' => 1], $result);
+
+        $promise = $simulator->addLike(1);
+
+        $this->assertInstanceOf(PromiseInterface::class, $promise);
+
+        $promise->then(function ($result) {
+            $this->assertEquals(['likes' => 1], $result);
+        });
+
+        $this->loop->run();
     }
 
     public function testAddDislike()
     {
-        $simulator = new ForumSimulator();
+        $simulator = new ForumSimulator($this->loop);
         $simulator->createForum('Тестовый раздел', 'Описание');
         $simulator->createTopic(1, 'Тестовая тема');
         $simulator->createPost(1, 'Тестовое сообщение');
-        $result = $simulator->addDislike(1);
-        $this->assertEquals(['likes' => -1], $result);
+
+        $promise = $simulator->addDislike(1);
+
+        $this->assertInstanceOf(PromiseInterface::class, $promise);
+
+        $promise->then(function ($result) {
+            $this->assertEquals(['likes' => -1], $result);
+        });
+
+        $this->loop->run();
     }
 }

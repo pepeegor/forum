@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $likes = $row["likes"];
-            echo json_encode(['likes' => $likes]); // Возврат в формате JSON
+            echo $likes; // Возврат в формате JSON
         } else {
             echo json_encode(['error' => 'Сообщение не найдено']);
         }
